@@ -31,7 +31,7 @@ To run this script in addition to the dataset saved at the same folder, you need
 * Pipenv:
 
 ## Lambdda Function:
-Firsth download and run this script [keras_to_tflite.py] to save the model the to a lambda model file or download the [model](kitchenware-model.tflite)
+Firsth download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model the to a lambda model file or download the [model](kitchenware-model.tflite)
 
 Download this files:
 * lambda_function.py
