@@ -113,8 +113,85 @@ And try running python test.py.
 Video?
 
 ## Kubernets:
+* Download the [model](kitchenware-model.h5)
+* Convert the model:
+```
+iphython
+import tensorflow
+from tensorflow import keras
+model = keras.models.load_model('kitchenware-model.h5')
+tf.saved_mdoel.save(model, kitchenware-model)
+saved_model_cli show --dir kitchenware-model --all
+```
+> Copy signature_def to model descrption.txt
+```
+docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1 -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0" 
+
+pip install grpcio==1.42.0 tensorflow-serving-api==2.7.0
+```
+* tf-serving-connect:
+Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file or download the file [tf-serving-connect.ipynb](tf-serving-connect.ipynb).
+* Test the mdoel:
+```
+docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1 -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0" 
+```
+* Download the files: 
+   * [gateway.py](gateway.py)
+   * [test.py](test.py)
+  
+```
+python3 gateway.py
+python3 test.py
+```
+* Download the file: [image-model.dockerfile]([image-model.dockerfile) 
+```
+docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
+
+docker run -it --rm -p 8500:8500 kitchenware-model:xception-v4-001
+```
+* Create the environment with pipenv:
+
+```
+pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
+
+```
+Or download from here: [pipfile]([pipfile)
+
+```
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+grpcio = "==1.42.0"
+flask = "*"
+gunicorn = "*"
+keras-image-helper = "*"
+tensorflow-protobuf = "==2.11.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+```
+* Download the file: [image-gateway.dockerfile](image-gateway.dockerfile) 
+```
+docker build -t kitchenware-gateway:001 -f image-gateway.dockerfile .
+
+docker run -it --rm -p 9696:9696 kitchenware-gateway:001
+```
+
+* Docker Compose: download the file: [docker-compose.yaml](docker-compose.yaml) 
+Run: ```docker-compose up```
+Detached mode: ```docker-compose up -d```
+Off: ```docker-compose down```
+
+* Kubectl:
 
 
+
+```.```
 
 
 
