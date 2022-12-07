@@ -24,13 +24,15 @@ Next, open the jupyter Notebook file and run it to view the EDA analyzes, traini
 
 ## [Train.py](train.py):
 
-Script to training the final model and saving it to a lambda model file (kitchenware-model.tflite)
+Script to training the final model and saving it model or download from here: [model](kitchenware-model.h5)
 
 To run this script in addition to the dataset saved at the same folder, you need the environment:
 * Anaconda:
 * Pipenv:
 
 ## Lambdda Function:
+Firsth download and run this script [keras_to_tflite.py] to save the model the to a lambda model file or download the [model](kitchenware-model.tflite)
+
 Download this files:
 * lambda_function.py
 * dockerfile
@@ -109,6 +111,8 @@ To test.py
 And try running python test.py.
 
 Video?
+
+## Kubernets:
 
 
 
