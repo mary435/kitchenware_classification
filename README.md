@@ -149,13 +149,13 @@ docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
 
 docker run -it --rm -p 8500:8500 kitchenware-model:xception-v4-001
 ```
-* Create the environment with pipenv:
+* Create the environment with pipenv or download from here: [pipfile]([pipfile)
 
 ```
 pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
 
 ```
-Or download from here: [pipfile]([pipfile)
+
 
 ```
 [[source]]
@@ -187,11 +187,64 @@ Run: ```docker-compose up```
 Detached mode: ```docker-compose up -d```
 Off: ```docker-compose down```
 
-* Kubectl:
+* Kubectl: Google > kubercrl AWS and copy the link
+```brew install kind```
+* New folder: kube-config > Download the file [model-deployment.yaml](model-deployment.yaml)
+```kind load docker-image kitchenware-model:xception-v4-001
+cd kube-config/
+kuclt apply -f model-deployment.yaml
+kubeclt get pod
+kubectl port-forward tf-serving-kitchenware-model 8500:8500
+puthon gateway.py
+```
+* Download the file: [model-service.yaml](model-service.yaml) 
+```
+kubectl apply -f model-service.yaml
+kubeclt get service
+kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
+```
+* Test ```python3 gateway.py```
+* Download the file: [gateway-deployment.yaml](gateway-deployment.yaml) 
+```
+kind load docekr-image kitchenware-gateway:002
+kubectl get pod
+kubeclt exec -it ping-deployment- --bash
+apt install curl
+apt update
+curl localhost:9696/ping response PONG
+apt install telnet
+telnet tf-serving-kitchenware-model.default.svc.cluster.local 8500
+kubectl apply -f gateway-deployment.yaml
+kubectl get pod
+kubectl port forward ping-deployment 9696:9696
+kubectl logs
+kubectl port forward gateway- 9696:9696
+```
+* Test ```python3 test.py```
 
+* Download the file: [gateway-service.yaml](gateway-service.yaml) 
+```
+kubectl apply -f gateway-service.yaml
+kubectl get service
+kubectl port forward service/gateway 8080:80
+```
+* Test.py URL:8080 ```python3 test.py```
 
+##Deploying to EKS
 
+```docker-compose down```
 ```.```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
