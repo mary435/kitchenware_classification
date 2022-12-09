@@ -232,8 +232,24 @@ kubectl port forward service/gateway 8080:80
 
 ##Deploying to EKS
 
-```docker-compose down```
-```.```
+```brew install ... see comannds on aws```
+* create cluster: download the file [eks-config.yaml](eks-config.yaml)
+```eksctl create cluster -f eks-config.yaml
+aws ecr create-repository --repository-name kitchenware-images
+```
+* copy URI
+* ver archvio config.txt ???
+```kuctl get nodes
+kubectl aaply -f model-deployment.yaml
+.
+.
+.
+
+```
+* test: ```python3 gateway.py```
+* copy URL to test file ```python3 test.py```
+
+video?
 
 
 
