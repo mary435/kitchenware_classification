@@ -24,7 +24,7 @@ Next, open the jupyter Notebook file and run it to view the EDA analyzes, traini
 
 ## [Train.py](train.py):
 
-Script to training the final model and saving it model or download from here: [model](kitchenware-model.h5)
+Script to training the final model and saving it or download from here: [model](kitchenware-model.h5)
 
 To run this script in addition to the dataset saved at the same folder, you need the environment:
 * Anaconda:
