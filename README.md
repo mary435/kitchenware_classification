@@ -45,9 +45,9 @@ To try it locally use this file:
 * [test.py](test.py) And run ```python test.py``` 
 
 
-## [AWS Lambda configuration](AWS-Lambda-configuration.md) : 
+* [AWS Lambda configuration](AWS-Lambda-configuration.md)
 
-## Video of the model running on AWS Lambda:
+* Video of the model running on AWS Lambda:
 [![demo-video](images/demo-video.png)](https://youtu.be/ZKhc76kcJos) 
 
 ## Deploy on Kubernetes
