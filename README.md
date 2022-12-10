@@ -33,16 +33,17 @@ To run this script in addition to the dataset saved at the same folder, you need
 ## Lambdda Function:
  * Download the [model](kitchenware-model.tflite)
  * Or download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file.
+ * Download this files:
+     * lambda_function.py
+     * dockerfile
 
-Download this files:
-* lambda_function.py
-* dockerfile
-```.```
-Run this command: ```docker build -t kitchenware-model .```
-Mac M1 ```docker build -t kitchenware-model . --platform linux/amd64```
-```docker run -it --rm -p 8080:8080 kitchenware-model:latest```
-To try it locally use this file: 
-* [test.py](test.py) And run ```python test.py``` 
+ * Run this command (Mac M1): 
+```docker build -t kitchenware-model .
+docker build -t kitchenware-model . --platform linux/amd64
+docker run -it --rm -p 8080:8080 kitchenware-model:latest
+```
+ * To try it locally download this file: 
+       * [test.py](test.py) And run ```python test.py``` 
 
 
 * [AWS Lambda configuration](AWS-Lambda-configuration.md)
