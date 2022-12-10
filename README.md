@@ -48,7 +48,7 @@ To try it locally use this file:
 ## [AWS Lambda configuration](AWS-Lambda-configuration.md) : 
 
 ## Video of the model running on AWS Lambda:
-[![demo-video](cardiovascular_diseases_risk_model/images/demo-video.png)](https://youtu.be/ZKhc76kcJos) 
+[![demo-video](https://github.com/mary435/cardiovascular_diseases_risk_model/blob/7898dd21676ff165d7b05fc8bf1a44821a9ac2ee/images/demo-video.png)](https://youtu.be/ZKhc76kcJos) 
 
 ## Deploy on Kubernetes
 * Download the [model](kitchenware-model.h5)
