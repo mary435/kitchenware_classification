@@ -82,22 +82,21 @@ signature_def['serving_default']:
   Method name is: tensorflow/serving/predict
 ```  
 > Save this values:   
-```serving_default
-   input_45 - input
-   dense_35 - output
+``` serving_default
+    input_45 - input
+    dense_35 - output
 ```
-> Run the model: docker system prune --all
+> Run the model: 
 ```
 docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1" -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0 
-
-/x86_64
-docker run -it --rm -p 8500:8500 --platform linux/x86_64 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1" -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0 
-
-
-pip install grpcio==1.42.0 tensorflow-serving-api==2.7.0
 ```
-* tf-serving-connect:
-Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file or download the file [tf-serving-connect.ipynb](tf-serving-connect.ipynb).
+If it works ok, you will see a message like: "[evhttp_server.cc : 245] NET_LOG: Entering the event loop ..."
+
+* tf-serving-connect: open [tf-serving-connect.ipynb](tf-serving-connect.ipynb) and run it to test the running model. 
+* Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python tf-serving-connect.py```
+* Convert this script to a Flask app: download the files [gateway.py](gateway.py) and [test.py](test.py). And test it running ```python gateway.py```. Now that gateway is running with flask, in another window: ```python test.py``` . The model answers the most probable class.
+* 
+* 
 * Test the mdoel:
 ```
 docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1 -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0" 
