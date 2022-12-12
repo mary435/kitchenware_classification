@@ -54,17 +54,45 @@ docker run -it --rm -p 8080:8080 kitchenware-model:latest
 ## Deploy on Kubernetes
 * Download the [model](kitchenware-model.h5)
 * Convert the model:
+
+> ipython
 ```
-iphython
-import tensorflow
+import tensorflow as tf
 from tensorflow import keras
 model = keras.models.load_model('kitchenware-model.h5')
-tf.saved_model.save(model, kitchenware-model)
+tf.saved_model.save(model, 'kitchenware-model')
+```
+> exit ipython
+```
 saved_model_cli show --dir kitchenware-model --all
 ```
-> Copy signature_def to model descrption.txt
+> Find and copy the second signature: signature_def to model-description.txt
 ```
-docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1 -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0" 
+signature_def['serving_default']:
+  The given SavedModel SignatureDef contains the following input(s):
+    inputs['input_45'] tensor_info:
+        dtype: DT_FLOAT
+        shape: (-1, 299, 299, 3)
+        name: serving_default_input_45:0
+  The given SavedModel SignatureDef contains the following output(s):
+    outputs['dense_35'] tensor_info:
+        dtype: DT_FLOAT
+        shape: (-1, 6)
+        name: StatefulPartitionedCall:0
+  Method name is: tensorflow/serving/predict
+```  
+> Save this values:   
+```serving_default
+   input_45 - input
+   dense_35 - output
+```
+> Run the model: docker system prune --all
+```
+docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1" -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0 
+
+/x86_64
+docker run -it --rm -p 8500:8500 --platform linux/x86_64 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1" -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0 
+
 
 pip install grpcio==1.42.0 tensorflow-serving-api==2.7.0
 ```
