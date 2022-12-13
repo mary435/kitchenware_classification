@@ -259,10 +259,13 @@ EXTERNAL-IP = a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaw
 url = 'http://a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com/predict'
 replace url on test.py and run ```python test.py```
 
-Now its running on AWS.
-video
-
 * Delete servicies because cost money: 
 ```
 eksctl delete cluster --name kitchenware-eks 
 ```
+
+* Video of the model running on AWS EC2:
+[![demo-video](images/demo-video.png)](https://youtu.be/OoW0ckc-2Sw)
+
+
+
