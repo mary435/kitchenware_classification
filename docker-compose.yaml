@@ -1,0 +1,10 @@
+version: "4.12"
+services:
+  kitchenware-model:
+    image: kitchenware-model:xception-v4-001
+  gateway:
+    image: kitchenware-gateway:001
+    environment:
+      - TF_SERVING_HOST=kitchenware-model:8500
+    ports:
+      - "9696:9696"
