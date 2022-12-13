@@ -51,7 +51,8 @@ docker run -it --rm -p 8080:8080 kitchenware-model:latest
 * Video of the model running on AWS Lambda:
 [![demo-video](images/demo-video.png)](https://youtu.be/ZKhc76kcJos) 
 
-## Deploy on Kubernetes
+## Deploy on Kubernetes:
+
 * Download the [model](kitchenware-model.h5)
 * Convert the model:
 
@@ -81,8 +82,9 @@ signature_def['serving_default']:
         name: StatefulPartitionedCall:0
   Method name is: tensorflow/serving/predict
 ```  
-> Save this values:   
-``` serving_default
+> Save this values:  
+``` 
+    serving_default
     input_45 - input
     dense_35 - output
 ```
@@ -94,67 +96,53 @@ If it works ok, you will see a message like: "[evhttp_server.cc : 245] NET_LOG: 
 
 * tf-serving-connect: open [tf-serving-connect.ipynb](tf-serving-connect.ipynb) and run it to test the running model. 
 * Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python tf-serving-connect.py```
-* Convert this script to a Flask app: download the files [gateway.py](gateway.py) and [test.py](test.py). And test it running ```python gateway.py```. Now that gateway is running with flask, in another window: ```python test.py``` . The model answers the most probable class.
-* 
-* 
-* Test the mdoel:
+* Convert this script to a Flask app: Add the flask configration to the tf-serving-connect.py and save it to gateway.py or download the following files already configured.   
+          - [gateway.py](gateway.py).    
+          - [test.py](test.py).     
+          - [proto.py](proto.py).     
+Test it running ```python gateway.py```. 
+Now that gateway is running with flask, in another window: ```python test.py``` .
+The model answers the most probable class.
+
+
+### Docker compose:
+
+* Prepare the environment with pipenv: 
 ```
-docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1 -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0" 
-```
-* Download the files: 
-   * [gateway.py](gateway.py)
-   * [test.py](test.py)
-  
-```
-python3 gateway.py
-python3 test.py
-```
-* Download the file: [image-model.dockerfile]([image-model.dockerfile) 
+pipenv --python 3.9
+pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
+```  
+* Or download from here: [pipfile]([pipfile) [pipfile.lock](pipfile.lock) And run ```pipenv install```
+
+* Download the file: [image-model.dockerfile]([image-model.dockerfile). And run:     
 ```
 docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
 
 docker run -it --rm -p 8500:8500 kitchenware-model:xception-v4-001
 ```
-* Create the environment with pipenv or download from here: [pipfile]([pipfile)
+* For testing comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And run ```pipenv run python gateway.py```.   
 
-```
-pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
-
-```
-
-
-```
-[[source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
-name = "pypi"
-
-[packages]
-grpcio = "==1.42.0"
-flask = "*"
-gunicorn = "*"
-keras-image-helper = "*"
-tensorflow-protobuf = "==2.11.0"
-
-[dev-packages]
-
-[requires]
-python_version = "3.9"
-```
+* Now uncomment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And comment the first tree:
+``` 
+url = 'https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/6172.jpg'  
+response = predict(url)    
+print(response)
+```   
 * Download the file: [image-gateway.dockerfile](image-gateway.dockerfile) 
 ```
 docker build -t kitchenware-gateway:001 -f image-gateway.dockerfile .
 
 docker run -it --rm -p 9696:9696 kitchenware-gateway:001
 ```
+* Download docker compose file: [docker-compose.yaml](docker-compose.yaml)    
+    * Run: ```docker-compose up```
+    * Test: ```python test.py```
+    * Option detached mode: ```docker-compose up -d``` And Off: ```docker-compose down```
 
-* Docker Compose: download the file: [docker-compose.yaml](docker-compose.yaml) 
-Run: ```docker-compose up```
-Detached mode: ```docker-compose up -d```
-Off: ```docker-compose down```
+### Kubernetes:
 
-* Kubectl: Google > kubercrl AWS and copy the link
-```brew install kind```
+* Install kubectl: search on google "kubectl AWS" and install from the link instructions. Same for "kind" and follow the instructions for your OS.
+
 * New folder: kube-config > Download the file [model-deployment.yaml](model-deployment.yaml)
 ```kind load docker-image kitchenware-model:xception-v4-001
 cd kube-config/
@@ -196,7 +184,7 @@ kubectl port forward service/gateway 8080:80
 ```
 * Test.py URL:8080 ```python3 test.py```
 
-##Deploying to EKS
+### Deploying to EKS:
 
 ```brew install ... see comannds on aws```
 * create cluster: download the file [eks-config.yaml](eks-config.yaml)
@@ -223,7 +211,27 @@ video?
 
 
 
+```brew install kind```
 
+
+```
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+grpcio = "==1.42.0"
+flask = "*"
+gunicorn = "*"
+keras-image-helper = "*"
+tensorflow-protobuf = "==2.11.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+```
 
 
 
