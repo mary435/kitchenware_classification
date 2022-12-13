@@ -24,22 +24,22 @@ Next, open the jupyter Notebook file and run it to view the EDA analyzes, traini
 
 ## [Train.py](train.py):
 
-Script to training the final model and saving it or download from here: [model](kitchenware-model.h5)
+Script to training the final model and saving it.
 
 To run this script in addition to the dataset saved at the same folder, you need the environment:
 * Anaconda:
 * Pipenv:
 
 ## Lambdda Function:
- * Download the [model](kitchenware-model.tflite)
- * Or download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file.
+ * From tran.py choose the best mdel and save it as kitchenware-model.h5. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file.     
+ 
  * Download this files:
      * lambda_function.py
      * dockerfile
 
- * Run this command (Mac M1): 
+ * Run this command: 
 ```docker build -t kitchenware-model .
-docker build -t kitchenware-model . --platform linux/amd64
+docker build -t kitchenware-model . 
 docker run -it --rm -p 8080:8080 kitchenware-model:latest
 ```
  * To try it locally download this file: 
@@ -143,36 +143,32 @@ docker run -it --rm -p 9696:9696 kitchenware-gateway:001
 
 * Install kubectl: search on google "kubectl AWS" and install from the link instructions. Same for "kind" and follow the instructions for your OS.
 
-* New folder: kube-config > Download the file [model-deployment.yaml](model-deployment.yaml)
-```kind load docker-image kitchenware-model:xception-v4-001
-cd kube-config/
-kuclt apply -f model-deployment.yaml
-kubeclt get pod
-kubectl port-forward tf-serving-kitchenware-model 8500:8500
-puthon gateway.py
+* New folder: kube-config: Download the file [model-deployment.yaml](model-deployment.yaml)
 ```
+kind load docker-image kitchenware-model:xception-v4-001
+cd kube-config/
+kubectl apply -f model-deployment.yaml
+kubectl get pod
+kubectl port-forward tf-serving-kitchenware-model-#add_here_the_id# 8500:8500
+```
+*Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python gateway.py```.   
+
 * Download the file: [model-service.yaml](model-service.yaml) 
 ```
 kubectl apply -f model-service.yaml
-kubeclt get service
+kubectl get service
 kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
-* Test ```python3 gateway.py```
+* Test ```pipenv run python gateway.py```. 
+
 * Download the file: [gateway-deployment.yaml](gateway-deployment.yaml) 
 ```
-kind load docekr-image kitchenware-gateway:002
+kind load docker-image kitchenware-gateway:001
 kubectl get pod
-kubeclt exec -it ping-deployment- --bash
-apt install curl
-apt update
-curl localhost:9696/ping response PONG
-apt install telnet
-telnet tf-serving-kitchenware-model.default.svc.cluster.local 8500
 kubectl apply -f gateway-deployment.yaml
 kubectl get pod
-kubectl port forward ping-deployment 9696:9696
-kubectl logs
-kubectl port forward gateway- 9696:9696
+
+kubectl port-forward gateway-#add_here_the_id# 9696:9696
 ```
 * Test ```python3 test.py```
 
@@ -180,9 +176,9 @@ kubectl port forward gateway- 9696:9696
 ```
 kubectl apply -f gateway-service.yaml
 kubectl get service
-kubectl port forward service/gateway 8080:80
+kubectl port-forward service/gateway 8080:80
 ```
-* Test.py URL:8080 ```python3 test.py```
+* Test.py change the url to 8080 ```python3 test.py```
 
 ### Deploying to EKS:
 
