@@ -15,7 +15,7 @@ In this competition we need to classify images of different kitchenware items in
  * Download from [Kaggle contest](https://www.kaggle.com/competitions/kitchenware-classification/data).
  * API from Kaggle:  ```kaggle competitions download -c kitchenware-classification```
  
-## [Notebook](notebook.):
+## [Notebook.ipynb](notebook.ipynb):
 The notebook was created with this anaconda environment: cardio_project_env.yaml
 
 Download it and import it to your anaconda, option environments, import.
@@ -255,8 +255,8 @@ kubectl get service
 kubectl port-forward service/gateway 8080:80
 python test.py
 ```
-EXTERNAL-IP = a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com
-url = 'http://a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com/predict'
+EXTERNAL-IP = a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com     
+url = 'http://a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com/predict'    
 replace url on test.py and run ```python test.py```
 
 * Delete servicies because cost money: 
