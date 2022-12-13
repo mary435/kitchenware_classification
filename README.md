@@ -16,7 +16,7 @@ In this competition we need to classify images of different kitchenware items in
  * API from Kaggle:  ```kaggle competitions download -c kitchenware-classification```
  
 ## [Notebook.ipynb](notebook.ipynb):
-The notebook was created with this anaconda environment: cardio_project_env.yaml
+The notebook was created with this anaconda environment: [model.yaml](model.yaml)
 
 Download it and import it to your anaconda, option environments, import.
 
@@ -24,11 +24,11 @@ Next, open the jupyter Notebook file and run it to view the EDA analyzes, traini
 
 ## [Train.py](train.py):
 
-Script to training the final model and saving it.
+Script to training the final model. This script save multiple models as accuracy improves, maximum 10.
 
 To run this script in addition to the dataset saved at the same folder, you need the environment:
-* Anaconda:
-* Pipenv:
+* Anaconda: [model.yaml](model.yaml)
+* Pipenv: 
 
 ## Lambdda Function:
  * From tran.py choose the best mdel and save it as kitchenware-model.h5. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file.     
@@ -143,7 +143,7 @@ docker run -it --rm -p 9696:9696 kitchenware-gateway:001
 
 * Install kubectl: search on google "kubectl AWS" and install from the link instructions. Same for "kind" and follow the instructions for your OS.
 
-* New folder: kube-config: Download the file [model-deployment.yaml](model-deployment.yaml)
+* New folder: kube-config: Download the file [model-deployment.yaml](kube-config/model-deployment.yaml)
 ```
 kind load docker-image kitchenware-model:xception-v4-001
 cd kube-config/
@@ -153,7 +153,7 @@ kubectl port-forward tf-serving-kitchenware-model-#add_here_the_id# 8500:8500
 ```
 * Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python gateway.py```.   
 
-* Download the file: [model-service.yaml](model-service.yaml) 
+* Download the file: [model-service.yaml](kube-config/model-service.yaml) 
 ```
 kubectl apply -f model-service.yaml
 kubectl get service
@@ -161,7 +161,7 @@ kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
 * Test ```pipenv run python gateway.py```. 
 
-* Download the file: [gateway-deployment.yaml](gateway-deployment.yaml) 
+* Download the file: [gateway-deployment.yaml](kube-config/gateway-deployment.yaml) 
 ```
 kind load docker-image kitchenware-gateway:001
 kubectl get pod
@@ -172,7 +172,7 @@ kubectl port-forward gateway-#add_here_the_id# 9696:9696
 ```
 * Test ```python test.py```
 
-* Download the file: [gateway-service.yaml](gateway-service.yaml) 
+* Download the file: [gateway-service.yaml](kube-config/gateway-service.yaml) 
 ```
 kubectl apply -f gateway-service.yaml
 kubectl get service
@@ -182,7 +182,7 @@ kubectl port-forward service/gateway 8080:80
 
 ### Deploying to EKS:
 
-* create cluster: download the file [eks-config.yaml](eks-config.yaml)
+* create cluster: download the file [eks-config.yaml](kube-config/eks-config.yaml)
 ```
 eksctl create cluster -f eks-config.yaml
 aws ecr create-repository --repository-name kitchenware-images
