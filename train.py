@@ -13,7 +13,7 @@ from tensorflow.keras.applications.xception import decode_predictions
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 #%% Files
-path = './kitchenware-classification/'
+path = './kitchenware-classification'
 name = 'train.csv'
 fullname_train = f'{path}/{name}'
 train = pd.read_csv(fullname_train)
