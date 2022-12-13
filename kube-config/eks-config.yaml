@@ -1,0 +1,11 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: kitchenware-eks
+  region: sa-east-1
+
+nodeGroups:
+  - name: ng-m5-xlarge
+    instanceType: m5.xlarge
+    desiredCapacity: 1
