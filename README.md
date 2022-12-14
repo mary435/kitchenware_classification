@@ -54,7 +54,7 @@ To run this script in addition to the dataset saved at the same folder, you need
 * Pipenv: [Pipfile](Pipfile) and [Pipfile.lock](Pipfile.lock) ```pipenv python3 test.py```
 
 ## Lambda Function:
- * Need the kitchenware-model.h5 from train.py. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file: kitchenware-model.tflite.    
+ * To develop it need the kitchenware-model.h5 from train.py. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file: kitchenware-model.tflite.    
 Run: ```python3 keras_to_tflite.py``` OR ```pipenv python3 keras_to_tflite.py```    
  
  * Download this files:
@@ -77,8 +77,8 @@ docker run -it --rm -p 8080:8080 kitchenware-model:latest
 
 ## Deploy on Kubernetes:
 
-* Download the [model](kitchenware-model.h5)
-* Convert the model:
+1. To develop it need the kitchenware-model.h5 from train.py.
+2. Convert the model:
 
 > ipython
 ```
@@ -91,7 +91,7 @@ tf.saved_model.save(model, 'kitchenware-model')
 ```
 saved_model_cli show --dir kitchenware-model --all
 ```
-> Find and copy the second signature: signature_def to model-description.txt
+3. Find and copy the second signature: signature_def to model-description.txt
 ```
 signature_def['serving_default']:
   The given SavedModel SignatureDef contains the following input(s):
@@ -106,24 +106,27 @@ signature_def['serving_default']:
         name: StatefulPartitionedCall:0
   Method name is: tensorflow/serving/predict
 ```  
-> Save this values:  
+4. Save this values:  
 ``` 
     serving_default
     input_45 - input
     dense_35 - output
 ```
-> Run the model: 
+5. Run the model: 
 ```
 docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenware-model/1" -e MODEL_NAME="kitchenware-model" tensorflow/serving:2.7.0 
 ```
-If it works ok, you will see a message like: "[evhttp_server.cc : 245] NET_LOG: Entering the event loop ..."
+Now will see a message like: "[evhttp_server.cc : 245] NET_LOG: Entering the event loop ..."
 
-* tf-serving-connect: open [tf-serving-connect.ipynb](tf-serving-connect.ipynb) and run it to test the running model. 
-* Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python3 tf-serving-connect.py```
-* Convert this script to a Flask app: Add the flask configration to the tf-serving-connect.py and save it to gateway.py or download the following files already configured.   
+6. tf-serving-connect: open [tf-serving-connect.ipynb](tf-serving-connect.ipynb) and run it to test the running model.    
+
+7. Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python3 tf-serving-connect.py```      
+ 
+8. Convert this script to a Flask app: Add the flask configration to the tf-serving-connect.py and save it to gateway.py or download the following files already configured.   
           - [gateway.py](gateway.py).    
           - [test.py](test.py).     
           - [proto.py](proto.py).     
+          
 Test it running ```python3 gateway.py```. 
 Now that gateway is running with flask, in another window: ```python3 test.py``` .
 The model answers the most probable class.
@@ -131,34 +134,45 @@ The model answers the most probable class.
 
 ### Docker compose:
 
-* Prepare the environment with pipenv: 
+1. Prepare the environment with pipenv: 
 ```
 pipenv --python 3.9
 pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
-```  
-* Or download from here: [Pipfile](kube-config/Pipfile) [Pipfile.lock](kube-config/Pipfile.lock) And run ```pipenv install```
+```             
+   * Or download from here: [Pipfile](kube-config/Pipfile) [Pipfile.lock](kube-config/Pipfile.lock) And run ```pipenv install```
 
-* Download the file: [image-model.dockerfile](image-model.dockerfile). And run:     
+2. Download the file: [image-model.dockerfile](image-model.dockerfile). And run:     
 ```
 docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
-
 docker run -it --rm -p 8500:8500 kitchenware-model:xception-v4-001
+``` 
+   * Or download and run:
 ```
-* For testing comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And run ```pipenv run python3 gateway.py```.   
+docker push maryorihuela/kitchenware-model:xception-v4-001
+docker run -it --rm -p 8500:8500 maryorihuela/kitchenware-model:xception-v4-001
+``` 
 
-* Now uncomment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And comment the first tree:
+3. For testing comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And run ```pipenv run python3 gateway.py```.   
+
+4. Now uncomment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. 
+And comment the first tree:
 ``` 
 url = 'https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/6172.jpg'  
 response = predict(url)    
 print(response)
 ```   
-* Download the file: [image-gateway.dockerfile](image-gateway.dockerfile) 
+5. Download the file: [image-gateway.dockerfile](image-gateway.dockerfile) And run:
 ```
 docker build -t kitchenware-gateway:001 -f image-gateway.dockerfile .
-
 docker run -it --rm -p 9696:9696 kitchenware-gateway:001
+```        
+* Or download and run:
 ```
-* Download docker compose file: [docker-compose.yaml](docker-compose.yaml)    
+docker push maryorihuela/kitchenware-gateway:001
+docker run -it --rm -p 8500:8500 maryorihuela/kitchenware-gateway:001
+``` 
+
+6. Download docker compose file: [docker-compose.yaml](docker-compose.yaml)    
     * Run: ```docker-compose up```
     * Test: ```python3 test.py```
     * Option detached mode: ```docker-compose up -d``` And Off: ```docker-compose down```
@@ -204,89 +218,7 @@ kubectl port-forward service/gateway 8080:80
 ```
 * Test.py change the url to 8080 ```python3 test.py```
 
-### Deploying to EKS:
-
-* create cluster: download the file [eks-config.yaml](kube-config/eks-config.yaml)
-```
-eksctl create cluster -f eks-config.yaml
-aws ecr create-repository --repository-name kitchenware-images
-```
-* copy URI for example:
-```
-"repositoryUri": "894518756245.dkr.ecr.sa-east-1.amazonaws.com/kitchenware-images",
-```
-* And follow this isntructions for your accont and region:
-```
-ACCOUNT_ID=894518756245
-REGION=sa-east-1
-REGISTRY_NAME=kitchenware-images
-PREFIX=${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REGISTRY_NAME}
-
-GATEWAY_LOCAL=kitchenware-gateway:001
-GATEWAY_REMOTE=${PREFIX}:kitchenware-gateway-001
-docker tag ${GATEWAY_LOCAL} ${GATEWAY_REMOTE}
-
-MODEL_LOCAL=kitchenware-model:xception-v4-001
-MODEL_REMOTE=${PREFIX}:kitchenware-model-xception-v4-001
-docker tag ${MODEL_LOCAL} ${MODEL_REMOTE} 
-```
-* Login on AWS ECR and push
-```
-aws ecr get-login-password | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
-
-docker push ${MODEL_REMOTE}
-docker push ${GATEWAY_REMOTE}
-```
-* Copy image URI from AWS ECR to gateway-deployment.yaml
-```
-echo ${GATEWAY_REMOTE}
-894518756245.dkr.ecr.sa-east-1.amazonaws.com/kitchenware-images:kitchenware-gateway-001
-``` 
-Paste on file gateway-deployment.yaml line image and replace 
-image: kitchenware-gateway:001 
-for this: 
-image: 894518756245.dkr.ecr.sa-east-1.amazonaws.com/kitchenware-images:kitchenware-gateway-001
-
-* Copy image URI from AWS ECR to model-deployment.yaml
-```
-echo ${MODEL_REMOTE}
-894518756245.dkr.ecr.sa-east-1.amazonaws.com/kitchenware-images:kitchenware-model-xception-v4-001
-```
-Paste on fle model-deployment.yaml line image and replace: 
-image: kitchenware-model:xception-v4-001
-for this: 
-image: 894518756245.dkr.ecr.sa-east-1.amazonaws.com/kitchenware-images:kitchenware-model-xception-v4-001
-
-* When cluster is ready:
-```
-kubectl get nodes
-kubectl apply -f model-deployment.yaml
-kubectl apply -f model-service.yaml
-kubectl get pod
-kubectl get service
-kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
-```
-* test: ```pipenv run python3 gateway.py```
-* Now upload gateway files:
-```
-kubectl apply -f gateway-deployment.yaml
-kubectl apply -f gateway-service.yaml
-kubectl get pod
-kubectl get service
-```
-* copy the EXTERNAL-IP for gateway and test the conection: 
-```
-kubectl port-forward service/gateway 8080:80
-python3 test.py
-```
-EXTERNAL-IP = a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com     
-url = 'http://a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com/predict'    
-replace url on test.py and run ```python3 test.py```
-
-* Delete servicies because cost money: 
-```
-eksctl delete cluster --name kitchenware-eks 
-```
+### [Deploying to EKS](AWS-EKS-configuration.md):
 
 * Video of the model running on AWS EC2:
 [![demo-video](images/demo-video.png)](https://youtu.be/OoW0ckc-2Sw)
