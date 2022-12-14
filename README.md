@@ -217,7 +217,7 @@ kubectl port-forward service/gateway 8080:80
 ```
 9. Test.py change the url to 8080 ```python3 test.py```
 
-### Deploying to EKS: [(AWS-EKS-configuration.md)](AWS-EKS-configuration.md):
+### Deploying to EKS: [AWS-EKS-configuration.md](AWS-EKS-configuration.md):
 
 * Video of the model running on AWS EC2:
 [![demo-video](images/demo-video.png)](https://youtu.be/OoW0ckc-2Sw)
