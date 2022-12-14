@@ -73,5 +73,5 @@ Response:
 
 >Copy the URL for example: https://oe6aug0jqj.execute-api.sa-east-1.amazonaws.com/Test/predict
 
->Paste to test.py
+>Paste to test.py.   
 >Test: running python test.py. Same result as before.
