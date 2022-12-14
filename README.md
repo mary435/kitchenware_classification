@@ -178,9 +178,9 @@ docker run -it --rm -p 8500:8500 maryorihuela/kitchenware-gateway:001
 
 ### Kubernetes:
 
-* Install kubectl: search on google "kubectl AWS" and install from the link instructions. Same for "kind" and follow the instructions for your OS.
+1. Install kubectl: search on google "kubectl AWS" and install from the link instructions. Same for "kind" and follow the instructions for your OS.
 
-* New folder: kube-config: Download the file [model-deployment.yaml](kube-config/model-deployment.yaml)
+2. New folder: kube-config: Download the file [model-deployment.yaml](kube-config/model-deployment.yaml)
 ```
 kind load docker-image kitchenware-model:xception-v4-001
 cd kube-config/
@@ -188,17 +188,17 @@ kubectl apply -f model-deployment.yaml
 kubectl get pod
 kubectl port-forward tf-serving-kitchenware-model-#add_here_the_id# 8500:8500
 ```
-* Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python3 gateway.py```.   
+3. Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python3 gateway.py```.   
 
-* Download the file: [model-service.yaml](kube-config/model-service.yaml) 
+4. Download the file: [model-service.yaml](kube-config/model-service.yaml) 
 ```
 kubectl apply -f model-service.yaml
 kubectl get service
 kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
-* Test ```pipenv run python3 gateway.py```. 
+5. Test ```pipenv run python3 gateway.py```. 
 
-* Download the file: [gateway-deployment.yaml](kube-config/gateway-deployment.yaml) 
+6. Download the file: [gateway-deployment.yaml](kube-config/gateway-deployment.yaml) 
 ```
 kind load docker-image kitchenware-gateway:001
 kubectl get pod
@@ -207,17 +207,17 @@ kubectl get pod
 
 kubectl port-forward gateway-#add_here_the_id# 9696:9696
 ```
-* Test ```python3 test.py```
+7. Test ```python3 test.py```
 
-* Download the file: [gateway-service.yaml](kube-config/gateway-service.yaml) 
+8. Download the file: [gateway-service.yaml](kube-config/gateway-service.yaml) 
 ```
 kubectl apply -f gateway-service.yaml
 kubectl get service
 kubectl port-forward service/gateway 8080:80
 ```
-* Test.py change the url to 8080 ```python3 test.py```
+9. Test.py change the url to 8080 ```python3 test.py```
 
-### [Deploying to EKS](AWS-EKS-configuration.md):
+### Deploying to EKS: [(AWS-EKS-configuration.md)](AWS-EKS-configuration.md):
 
 * Video of the model running on AWS EC2:
 [![demo-video](images/demo-video.png)](https://youtu.be/OoW0ckc-2Sw)
