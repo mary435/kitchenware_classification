@@ -136,7 +136,7 @@ The model answers the most probable class.
 pipenv --python 3.9
 pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-protobuf==2.11.0
 ```  
-* Or download from here: [Pipfile](kube_config/Pipfile) [Pipfile.lock](kube-config/Pipfile.lock) And run ```pipenv install```
+* Or download from here: [Pipfile](kube-config/Pipfile) [Pipfile.lock](kube-config/Pipfile.lock) And run ```pipenv install```
 
 * Download the file: [image-model.dockerfile](image-model.dockerfile). And run:     
 ```
