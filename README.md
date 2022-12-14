@@ -66,8 +66,7 @@ Run: ```python3 keras_to_tflite.py``` OR ```pipenv python3 keras_to_tflite.py```
 docker build -t kitchenware-model .
 docker run -it --rm -p 8080:8080 kitchenware-model:latest
 ```
- * To try it locally download this file: 
-       * [test.py](test.py) And run ```python3 test.py``` OR ```pipenv python3 test.py```
+ * To try it locally download this file: [test.py](test.py) And run ```python3 test.py``` OR ```pipenv python3 test.py```
 
 
 * [AWS Lambda configuration](AWS-Lambda-configuration.md)
