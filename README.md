@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images
 https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/6172.jpg
 ```  
 * Video of the model running Locally:
-[![demo-video](images/demo-video.png)]() 
+[![test-video](images/test.png)](https://youtu.be/b1L8uhEvEWQ) 
 
 
 
