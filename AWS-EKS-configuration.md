@@ -67,7 +67,7 @@ kubectl get pod
 kubectl get service
 kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
-* test: ```pipenv run python3 gateway.py```
+* test: ```python3 gateway.py```
 * Now upload gateway files:
 ```
 kubectl apply -f gateway-deployment.yaml
