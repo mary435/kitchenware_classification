@@ -138,7 +138,7 @@ pipenv install grpcio ==1.42.0 flask gunicorn keras-image-helper tensorflow-prot
 ```  
 * Or download from here: [Pipfile](kube_config/Pipfile) [Pipfile.lock](kube-config/Pipfile.lock) And run ```pipenv install```
 
-* Download the file: [image-model.dockerfile]([image-model.dockerfile). And run:     
+* Download the file: [image-model.dockerfile](image-model.dockerfile). And run:     
 ```
 docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
 
