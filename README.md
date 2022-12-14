@@ -11,6 +11,29 @@ In this competition we need to classify images of different kitchenware items in
 * forks
 * knives
 
+## Try the model locally:
+* Download docker and run it: 
+```
+docker pull maryorihuela/kitchenware-model:latest 
+docker run -it --rm -p 8080:8080 maryorihuela/kitchenware-model:latest 
+```
+* Download [test.py](test.py)
+* Run: ```python3 test.py ```
+* For testing diferent images use a url after the fine name e.g.: ```python3 test.py https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0040.jpg```
+* I uploaded some images in my repository to test, but you can put any url.
+```
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0017.jpg
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0022.jpg
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0034.jpg
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0036.jpg
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/0040.jpg
+https://raw.githubusercontent.com/mary435/kitchenware_classification/main/images/6172.jpg
+```  
+* Video of the model running Locally:
+[![demo-video](images/demo-video.png)]() 
+
+
+
 ## Data: 
  * Download from [Kaggle contest](https://www.kaggle.com/competitions/kitchenware-classification/data).
  * API from Kaggle:  ```kaggle competitions download -c kitchenware-classification```
@@ -24,26 +47,27 @@ Next, open the jupyter Notebook file and run it to view the EDA analyzes, traini
 
 ## [Train.py](train.py):
 
-Script to training the final model. This script save multiple models as accuracy improves, maximum 10.
-
+Script to training the final model and save it.
 To run this script in addition to the dataset saved at the same folder, you need the environment:
-* Anaconda: [model.yaml](model.yaml)
-* Pipenv: 
 
-## Lambdda Function:
- * From tran.py choose the best mdel and save it as kitchenware-model.h5. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file.     
+* Anaconda: [model.yaml](model.yaml) ```python3 test.py```
+* Pipenv: [Pipfile](Pipfile) and [Pipfile.lock](Pipfile.lock) ```pipenv python3 test.py```
+
+## Lambda Function:
+ * Need the kitchenware-model.h5 from train.py. Download and run this script [keras_to_tflite.py](keras_to_tflite.py) to save the model 'kitchenware-model.h5' to a lambda model file: kitchenware-model.tflite.    
+Run: ```python3 keras_to_tflite.py``` OR ```pipenv python3 keras_to_tflite.py```    
  
  * Download this files:
-     * lambda_function.py
-     * dockerfile
+     * [lambda_function.py](lambda_function.py)
+     * [dockerfile](dockerfile)
 
  * Run this command: 
-```docker build -t kitchenware-model .
-docker build -t kitchenware-model . 
+```
+docker build -t kitchenware-model .
 docker run -it --rm -p 8080:8080 kitchenware-model:latest
 ```
  * To try it locally download this file: 
-       * [test.py](test.py) And run ```python test.py``` 
+       * [test.py](test.py) And run ```python3 test.py``` OR ```pipenv python3 test.py```
 
 
 * [AWS Lambda configuration](AWS-Lambda-configuration.md)
@@ -95,13 +119,13 @@ docker run -it --rm -p 8500:8500 -v "$(pwd)/kitchenware-model:/models/kitchenwar
 If it works ok, you will see a message like: "[evhttp_server.cc : 245] NET_LOG: Entering the event loop ..."
 
 * tf-serving-connect: open [tf-serving-connect.ipynb](tf-serving-connect.ipynb) and run it to test the running model. 
-* Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python tf-serving-connect.py```
+* Run: ```jupiter nbconvert --tosript tf-serving-connect.ipynb``` and clear the file to run as script with: ```python3 tf-serving-connect.py```
 * Convert this script to a Flask app: Add the flask configration to the tf-serving-connect.py and save it to gateway.py or download the following files already configured.   
           - [gateway.py](gateway.py).    
           - [test.py](test.py).     
           - [proto.py](proto.py).     
-Test it running ```python gateway.py```. 
-Now that gateway is running with flask, in another window: ```python test.py``` .
+Test it running ```python3 gateway.py```. 
+Now that gateway is running with flask, in another window: ```python3 test.py``` .
 The model answers the most probable class.
 
 
@@ -120,7 +144,7 @@ docker build -t kitchenware-model:xception-v4-001 -f image-model.dockerfile .
 
 docker run -it --rm -p 8500:8500 kitchenware-model:xception-v4-001
 ```
-* For testing comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And run ```pipenv run python gateway.py```.   
+* For testing comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And run ```pipenv run python3 gateway.py```.   
 
 * Now uncomment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py. And comment the first tree:
 ``` 
@@ -136,7 +160,7 @@ docker run -it --rm -p 9696:9696 kitchenware-gateway:001
 ```
 * Download docker compose file: [docker-compose.yaml](docker-compose.yaml)    
     * Run: ```docker-compose up```
-    * Test: ```python test.py```
+    * Test: ```python3 test.py```
     * Option detached mode: ```docker-compose up -d``` And Off: ```docker-compose down```
 
 ### Kubernetes:
@@ -151,7 +175,7 @@ kubectl apply -f model-deployment.yaml
 kubectl get pod
 kubectl port-forward tf-serving-kitchenware-model-#add_here_the_id# 8500:8500
 ```
-* Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python gateway.py```.   
+* Testing: comment the line ```app.run(debug=True, host='0.0.0.0', port=9696)``` on gateway.py, and uncomment the other tree lines. Run ```pipenv run python3 gateway.py```.   
 
 * Download the file: [model-service.yaml](kube-config/model-service.yaml) 
 ```
@@ -159,7 +183,7 @@ kubectl apply -f model-service.yaml
 kubectl get service
 kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
-* Test ```pipenv run python gateway.py```. 
+* Test ```pipenv run python3 gateway.py```. 
 
 * Download the file: [gateway-deployment.yaml](kube-config/gateway-deployment.yaml) 
 ```
@@ -170,7 +194,7 @@ kubectl get pod
 
 kubectl port-forward gateway-#add_here_the_id# 9696:9696
 ```
-* Test ```python test.py```
+* Test ```python3 test.py```
 
 * Download the file: [gateway-service.yaml](kube-config/gateway-service.yaml) 
 ```
@@ -178,7 +202,7 @@ kubectl apply -f gateway-service.yaml
 kubectl get service
 kubectl port-forward service/gateway 8080:80
 ```
-* Test.py change the url to 8080 ```python test.py```
+* Test.py change the url to 8080 ```python3 test.py```
 
 ### Deploying to EKS:
 
@@ -242,7 +266,7 @@ kubectl get pod
 kubectl get service
 kubectl port-forward service/tf-serving-kitchenware-model 8500:8500
 ```
-* test: ```pipenv run python gateway.py```
+* test: ```pipenv run python3 gateway.py```
 * Now upload gateway files:
 ```
 kubectl apply -f gateway-deployment.yaml
@@ -253,11 +277,11 @@ kubectl get service
 * copy the EXTERNAL-IP for gateway and test the conection: 
 ```
 kubectl port-forward service/gateway 8080:80
-python test.py
+python3 test.py
 ```
 EXTERNAL-IP = a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com     
 url = 'http://a913822c1cd1c46419c96a13dab473ab-1668504140.sa-east-1.elb.amazonaws.com/predict'    
-replace url on test.py and run ```python test.py```
+replace url on test.py and run ```python3 test.py```
 
 * Delete servicies because cost money: 
 ```
