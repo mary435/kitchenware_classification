@@ -11,7 +11,16 @@ In this competition we need to classify images of different kitchenware items in
 * forks
 * knives
 
-## Try the model locally:
+## Try the model locally with BentoML:
+```
+docker pull maryorihuela/kitchenware-classification:gdvanld5rg76jrft 
+docker run -it --rm -p 3000:3000 maryorihuela/kitchenware-classification:gdvanld5rg76jrft serve --production
+```
+* Just go to localhost:3000 and test it by uploading an image.
+* Video of the model running locally with BentoML:
+[![test-video](images/Bentoml.png)](https://youtu.be/5TP-wYtBy_s) 
+
+## Try the model locally without BentoML:
 * Download docker and run it: 
 ```
 docker pull maryorihuela/kitchenware-model:latest 
