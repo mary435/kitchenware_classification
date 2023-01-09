@@ -9,7 +9,7 @@ In this competition we need to classify images of different kitchenware items in
 * plates
 * spoons
 * forks
-* knives
+* knives 
 
 ## Try the model locally with BentoML:
 ```
