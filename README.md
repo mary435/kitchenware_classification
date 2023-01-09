@@ -11,7 +11,7 @@ In this competition we need to classify images of different kitchenware items in
 * forks
 * knives 
 
-## Try the model online: https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs 
+## Try the model online: [Kitchenware Classification](https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs) 
 
 ## Try the model locally with BentoML:
 ```
