@@ -238,8 +238,11 @@ kubectl port-forward service/gateway 8080:80
 
 ### Deploying to EKS: [AWS-EKS-configuration.md](AWS-EKS-configuration.md):
 
+
 * Video of the model running on AWS EC2:
 [![demo-video](images/demo-video.png)](https://youtu.be/OoW0ckc-2Sw)
 
 
+## License
 
+Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), "kitchenware_classification" is free and open source software.
