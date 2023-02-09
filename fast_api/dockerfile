@@ -15,6 +15,10 @@ RUN pip install tensorflow==2.9.1
 RUN pip install numpy==1.22.3
 RUN pip install pillow==9.2.0
 RUN pip install python-multipart
+RUN pip install telebot
+RUN pip install chardet 
+RUN pip install requests 
+RUN pip install pytelegrambotapi
 # 
 COPY ./* ./
 

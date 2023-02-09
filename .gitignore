@@ -1,0 +1,5 @@
+*.h5
+/fast_api/model
+save.py
+/fast_api/config.py
+/fast_api/__pycache__
