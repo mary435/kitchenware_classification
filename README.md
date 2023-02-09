@@ -12,7 +12,7 @@ In this competition we need to classify images of different kitchenware items in
 * knives
 
 I experimented with different deployment ways for this model.
-To test it online I made this development with Fast Api to upload it to mongenius. Which allowed me to add a telegram bot.
+To test it online I made this development with Fast Api to upload it to mogenius. Which allowed me to add a telegram bot.
 
 ### This is the link to test the model on the website: [Kitchenware Classification](https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs)
 
@@ -246,3 +246,6 @@ kubectl port-forward service/gateway 8080:80
 ## License
 
 Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), "kitchenware_classification" is free and open source software.
+
+
+## 
