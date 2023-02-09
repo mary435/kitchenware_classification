@@ -9,11 +9,19 @@ In this competition we need to classify images of different kitchenware items in
 * plates
 * spoons
 * forks
-* knives 
+* knives
 
-## Try the model online: [Kitchenware Classification](https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs) 
+I experimented with different deployment ways for this model.
+To test it online I made this development with Fast Api to upload it to mongenius. Which allowed me to add a telegram bot.
 
-## Try the model locally with BentoML:
+### This is the link to test the model on the website: [Kitchenware Classification](https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs)
+
+### This is the invitation link to the telegram app to test the model: [Telegram Kitchenware Classification](https://t.me/MaryPython_bot)
+
+
+## Other options:
+
+### Try the model locally with BentoML:
 ```
 docker pull maryorihuela/kitchenware-classification:gdvanld5rg76jrft 
 docker run -it --rm -p 3000:3000 maryorihuela/kitchenware-classification:gdvanld5rg76jrft serve --production
