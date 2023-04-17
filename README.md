@@ -12,14 +12,9 @@ In this competition we need to classify images of different kitchenware items in
 * knives
 
 I experimented with different deployment ways for this model.
-To test it online I made this development with Fast Api to upload it to mogenius. Which allowed me to add a telegram bot.
+<To test it online I made this development with Fast Api to upload it to mogenius. Which allowed me to add a telegram bot.>
 
-### This is the link to test the model on the website: [Kitchenware Classification](https://kitchenware-prod-kitchenware-q7vq55.mo5.mogenius.io/docs)
-
-### This is the invitation link to the telegram app to test the model: [Telegram Kitchenware Classification](https://t.me/MaryPython_bot)
-
-
-## Other options:
+### [Telegram Bot](https://github.com/mary435/Telegram/tree/main/kitchenware) for Kitchenware Classification Model
 
 ### Try the model locally with BentoML:
 ```
@@ -30,7 +25,7 @@ docker run -it --rm -p 3000:3000 maryorihuela/kitchenware-classification:gdvanld
 * Video of the model running locally with BentoML:
 [![test-video](images/Bentoml.png)](https://youtu.be/5TP-wYtBy_s) 
 
-## Try the model locally without BentoML:
+### Try the model locally without BentoML:
 * Download docker and run it: 
 ```
 docker pull maryorihuela/kitchenware-model:latest 
